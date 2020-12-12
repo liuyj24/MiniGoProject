@@ -8,18 +8,24 @@ import (
 
 func main() {
 	g := goi.New()
-	g.GET("/", func(c *goi.Context) {
-		c.HTML(http.StatusOK, "<h1>Hello Goi</h1>")
+	//g.GET("/", func(c *goi.Context) {
+	//	c.HTML(http.StatusOK, "<h1>Hello Goi</h1>")
+	//})
+	//
+	//g.GET("/hello", func(c *goi.Context) {
+	//	c.String(http.StatusOK, "hello %s, you're at %s\n", c.Query("name"), c.Path)
+	//})
+	//g.POST("/login", func(c *goi.Context) {
+	//	c.JSON(http.StatusOK, goi.M{
+	//		"username": c.PostForm("username"),
+	//		"password": c.PostForm("password"),
+	//	})
+	//})
+	g.GET("/hello/:name", func(c *goi.Context) {
+		c.String(http.StatusOK, "hello %s, you're at %s\n", c.Params["name"], c.Path)
 	})
-
-	g.GET("/hello", func(c *goi.Context) {
-		c.String(http.StatusOK, "hello %s, you're at %s\n", c.Query("name"), c.Path)
-	})
-	g.POST("/login", func(c *goi.Context) {
-		c.JSON(http.StatusOK, goi.M{
-			"username": c.PostForm("username"),
-			"password": c.PostForm("password"),
-		})
+	g.GET("/assets/*filepath", func(c *goi.Context) {
+		c.JSON(http.StatusOK, goi.M{"filepath": c.Param("filepath")})
 	})
 	log.Fatal(g.Run(":9999"))
 }

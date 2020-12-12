@@ -9,10 +9,16 @@ import (
 type M map[string]interface{}
 
 type Context struct {
-	Writer     http.ResponseWriter
-	Req        *http.Request
-	Path       string
-	Method     string
+	//origin objects
+	Writer http.ResponseWriter
+	Req    *http.Request
+
+	//request info
+	Path   string
+	Method string
+	Params map[string]string
+
+	//response info
 	StatusCode int
 }
 
@@ -23,6 +29,10 @@ func newContext(w http.ResponseWriter, r *http.Request) *Context {
 		Path:   r.URL.Path,
 		Method: r.Method,
 	}
+}
+
+func (c *Context) Param(key string) string {
+	return c.Params[key]
 }
 
 //获取post表单中的值
