@@ -20,6 +20,19 @@ func FormatAsDate(t time.Time) string {
 }
 
 func main() {
+	g := goi.Default()
+	g.GET("/", func(c *goi.Context) {
+		c.String(http.StatusOK, "hello world!")
+	})
+
+	g.GET("/panic", func(c *goi.Context) {
+		names := []string{"yijun"}
+		c.String(http.StatusOK, names[100])
+	})
+	g.Run(":9999")
+}
+
+func testStaticResource() {
 	g := goi.New()
 	g.Use(goi.Logger())
 
@@ -50,4 +63,5 @@ func main() {
 		})
 	})
 	log.Fatal(g.Run(":9999"))
+
 }
